@@ -1,9 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "Foo.h"
+#include "Node.h"
 
-TEST_CASE("Simple test")
+TEST_CASE("Create node")
 {
-    REQUIRE(returnTrue());
-    REQUIRE(returnFalse());
+    int id = 1;
+    Node* node = createNode(id);
+    destroyNode(node);
 }
