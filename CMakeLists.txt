@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(holocron_lib)
-target_sources(holocron_lib PRIVATE src/Node.c)
+target_sources(holocron_lib PRIVATE src/Message.c src/Node.c)
 target_include_directories(holocron_lib PUBLIC include)
 
 add_executable(holocron)
