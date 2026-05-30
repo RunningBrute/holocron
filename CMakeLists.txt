@@ -9,11 +9,11 @@ add_library(holocron_lib)
 target_sources(holocron_lib PRIVATE src/Message.c src/Node.c)
 target_include_directories(holocron_lib PUBLIC include)
 
-add_executable(holocron)
-target_sources(holocron PRIVATE src/main.c)
-target_link_libraries(holocron PRIVATE holocron_lib)
-target_compile_options(holocron PRIVATE -fsanitize=address -g)
-target_link_options(holocron PRIVATE -fsanitize=address)
+add_executable(node)
+target_sources(node PRIVATE src/NodeApp.c)
+target_link_libraries(node PRIVATE holocron_lib)
+target_compile_options(node PRIVATE -fsanitize=address -g)
+target_link_options(node PRIVATE -fsanitize=address)
 
 include(FetchContent)
 FetchContent_Declare(
