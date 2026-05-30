@@ -9,12 +9,20 @@ add_library(holocron_lib)
 target_sources(holocron_lib PRIVATE src/Message.c src/Node.c)
 target_include_directories(holocron_lib PUBLIC include)
 
+# Node application
 add_executable(node)
 target_sources(node PRIVATE src/NodeApp.c)
 target_link_libraries(node PRIVATE holocron_lib)
 target_compile_options(node PRIVATE -fsanitize=address -g)
 target_link_options(node PRIVATE -fsanitize=address)
 
+# Supervisor application
+add_executable(supervisor)
+target_sources(supervisor PRIVATE src/SupervisorApp.c)
+target_compile_options(supervisor PRIVATE -fsanitize=address -g)
+target_link_options(supervisor PRIVATE -fsanitize=address)
+
+# Tests
 include(FetchContent)
 FetchContent_Declare(
     Catch2
