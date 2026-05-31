@@ -18,6 +18,12 @@ int main(int argc, char* argv[])
     Node* node = createNode(id);
     printf("[Node] Node with ID %d and PID %d created \n", id, pid);
 
+    while (1)
+    {
+        printf("[NODE] Alive! Id: %d, PID: %d \n", id, pid);
+        sleep(2);
+    }
+
     destroyNode(node);
     printf("[Node] Node with ID %d and PID %d destroyed \n", id, pid);
 
