@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     }
     printf("[Supervisor] %d nodes will be created\n", nodesCount);
 
-    int nodesHandles[MAX_NODES + 1] = {0};
+    int nodesHandles[MAX_NODES] = {0};
 
     for (int id = 1; id <= nodesCount; ++id)
     {
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
             snprintf(textId, sizeof(textId), "%d", id);
 
             char* const nodeArgv[] = {"node", textId, NULL};
-            nodesHandles[id] = execv("node", nodeArgv);
+            nodesHandles[id - 1] = execv("node", nodeArgv);
 
             perror("[Supervisor][ERROR] execv");
             exit(EXIT_FAILURE);
