@@ -6,9 +6,17 @@
 
 #define MAX_NODES 10
 
-static inline bool isNewProcess(const int pid)
+static inline bool isNewProcess(const pid_t pid)
 {
     return pid == 0;
+}
+
+static inline void waitForNodes(const pid_t* nodesPids, const int nodesCount)
+{
+    for (int id = 1; id <= nodesCount; ++id)
+    {
+        waitpid(nodesPids[id - 1], NULL, 0);
+    }
 }
 
 int main(int argc, char* argv[])
@@ -29,11 +37,12 @@ int main(int argc, char* argv[])
     }
     printf("[Supervisor] %d nodes will be created\n", nodesCount);
 
-    int nodesHandles[MAX_NODES] = {0};
+    pid_t nodesPids[MAX_NODES] = {0};
 
     for (int id = 1; id <= nodesCount; ++id)
     {
-        int pid = fork();
+        pid_t pid = fork();
+        nodesPids[id - 1] = pid;
         if (isNewProcess(pid))
         {
             printf("[Supervisor] Trying to create new node with ID %d \n", id);
@@ -42,17 +51,15 @@ int main(int argc, char* argv[])
             snprintf(textId, sizeof(textId), "%d", id);
 
             char* const nodeArgv[] = {"node", textId, NULL};
-            nodesHandles[id - 1] = execv("node", nodeArgv);
+            execv("node", nodeArgv);
 
             perror("[Supervisor][ERROR] execv");
-            exit(EXIT_FAILURE);
+            _exit(EXIT_FAILURE);
         }
     }
 
-    for (int id = 1; id <= nodesCount; ++id)
-    {
-        waitpid(nodesHandles[id], NULL, 0);
-    }
+    waitForNodes(nodesPids, nodesCount);
+
     printf("[Supervisor] Supervisor ended. \n");
 
     return 0;
