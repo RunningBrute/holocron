@@ -13,6 +13,20 @@ typedef struct NodesContext
     int size;
 } NodesContext;
 
+static inline int getNodesCountToCreate(const char* argv[])
+{
+    int nodesCount = atoi(argv[1]);
+
+    if (nodesCount > MAX_NODES)
+    {
+        nodesCount = MAX_NODES;
+        printf("[Supervisor][WARNING] Too many nodes. Only %d nodes will be created\n", MAX_NODES);
+    }
+    printf("[Supervisor] %d nodes will be created\n", nodesCount);
+
+    return nodesCount;
+}
+
 static inline bool isNewProcess(const pid_t pid)
 {
     return pid == 0;
@@ -53,7 +67,7 @@ static inline void waitForNodes(const NodesContext ctx)
     }
 }
 
-int main(int argc, char* argv[])
+int main(int argc, const char* argv[])
 {
     printf("[Supervisor] Supervisor started. \n");
 
@@ -63,16 +77,8 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    int nodesCount = atoi(argv[1]);
-    if (nodesCount > MAX_NODES)
-    {
-        nodesCount = MAX_NODES;
-        printf("[Supervisor][WARNING] Too many nodes. Only %d nodes will be created\n", MAX_NODES);
-    }
-    printf("[Supervisor] %d nodes will be created\n", nodesCount);
-
     NodesContext nodesCtx;
-    nodesCtx.size = nodesCount;
+    nodesCtx.size = getNodesCountToCreate(argv);
 
     createNodes(&nodesCtx);
     waitForNodes(nodesCtx);
