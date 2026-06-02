@@ -18,14 +18,6 @@ static inline bool isNewProcess(const pid_t pid)
     return pid == 0;
 }
 
-static inline void waitForNodes(const NodesContext ctx)
-{
-    for (int id = 0; id < ctx.size; ++id)
-    {
-        waitpid(ctx.pids[id], NULL, 0);
-    }
-}
-
 static inline void createNode(NodesContext* ctx, const int id)
 {
     ctx->ids[id] = id;
@@ -50,6 +42,14 @@ static inline void createNodes(NodesContext* ctx)
     for (int id = 0; id < ctx->size; ++id)
     {
         createNode(ctx, id);
+    }
+}
+
+static inline void waitForNodes(const NodesContext ctx)
+{
+    for (int id = 0; id < ctx.size; ++id)
+    {
+        waitpid(ctx.pids[id], NULL, 0);
     }
 }
 
