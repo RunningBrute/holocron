@@ -13,6 +13,15 @@ typedef struct NodesContext
     int size;
 } NodesContext;
 
+static inline void checkArgCount(const int argc)
+{
+    if (argc < 2)
+    {
+        perror("[Supervisor][ERROR] Too few arguments to start node! Nodes numbers needed! \n");
+        exit(EXIT_FAILURE);
+    }
+}
+
 static inline int getNodesCountToCreate(const char* argv[])
 {
     int nodesCount = atoi(argv[1]);
@@ -71,11 +80,7 @@ int main(int argc, const char* argv[])
 {
     printf("[Supervisor] Supervisor started. \n");
 
-    if (argc < 2)
-    {
-        perror("[Supervisor][ERROR] Too few arguments to start node! Nodes numbers needed! \n");
-        exit(EXIT_FAILURE);
-    }
+    checkArgCount(argc);
 
     NodesContext nodesCtx;
     nodesCtx.size = getNodesCountToCreate(argv);
