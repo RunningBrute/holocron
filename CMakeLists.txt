@@ -22,6 +22,12 @@ target_sources(supervisor PRIVATE src/SupervisorApp.c)
 target_compile_options(supervisor PRIVATE -fsanitize=address -g)
 target_link_options(supervisor PRIVATE -fsanitize=address)
 
+# Router application
+add_executable(router)
+target_sources(router PRIVATE src/RouterApp.c)
+target_compile_options(router PRIVATE -fsanitize=address -g)
+target_link_options(router PRIVATE -fsanitize=address)
+
 # Tests
 include(FetchContent)
 FetchContent_Declare(
