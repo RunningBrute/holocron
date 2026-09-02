@@ -10,4 +10,7 @@ public:
     explicit NodeManager(QObject *parent = nullptr);
 
     Q_INVOKABLE void start(int count);
+
+signals:
+    void nodeStarted(int count);
 };

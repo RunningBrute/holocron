@@ -32,4 +32,12 @@ ApplicationWindow {
             }
         }
     }
+
+    Connections {
+        target: nodeManager
+
+        function onNodeStarted(count) {
+            console.log("QML: nodes started:", count)
+    }
+}
 }
