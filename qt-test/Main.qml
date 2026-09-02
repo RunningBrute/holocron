@@ -6,4 +6,9 @@ Window {
     height: 600
     visible: true
     title: "Holocron"
+
+    Text {
+        text: "Hello Holocron!"
+        anchors.centerIn: parent
+    }
 }
