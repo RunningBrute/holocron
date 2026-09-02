@@ -9,7 +9,10 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
-qt_add_executable(holocron-gui main.cpp)
+qt_add_executable(holocron-gui
+    main.cpp
+    NodeManager.cpp
+    NodeManager.h)
 
 qt_add_qml_module(holocron-gui
     URI HolocronGui

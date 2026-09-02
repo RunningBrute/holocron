@@ -28,7 +28,7 @@ ApplicationWindow {
             text: "Start"
 
             onClicked: {
-                console.log("Starting", nodeCount.value, "nodes")
+                nodeManager.start(nodeCount.value)
             }
         }
     }
