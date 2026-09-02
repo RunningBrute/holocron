@@ -8,7 +8,7 @@ Window {
     title: "Holocron"
 
     Text {
-        text: "Hello Holocron!"
+        text: "Hello There!"
         anchors.centerIn: parent
     }
 }
