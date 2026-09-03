@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QProcess>
 
 class NodeManager : public QObject
 {
@@ -12,5 +13,8 @@ public:
     Q_INVOKABLE void start(int count);
 
 signals:
-    void nodeStarted(int count);
+    void nodesStarted(int count);
+
+private:
+    QProcess supervisorProcess;
 };

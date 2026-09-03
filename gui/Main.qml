@@ -37,7 +37,7 @@ ApplicationWindow {
     Connections {
         target: nodeManager
 
-        function onNodeStarted(count) {
+        function onNodesStarted(count) {
             statusLabel.text = "Status: running " + count + " nodes"
     }
 }
