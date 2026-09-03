@@ -14,7 +14,8 @@ ApplicationWindow {
         spacing: 10
 
         Label {
-            text: "Nodes: " + nodeCount.value
+            id: statusLabel
+            text: "Status: stopped"
         }
 
         SpinBox {
@@ -37,7 +38,7 @@ ApplicationWindow {
         target: nodeManager
 
         function onNodeStarted(count) {
-            console.log("QML: nodes started:", count)
+            statusLabel.text = "Status: running " + count + " nodes"
     }
 }
 }
