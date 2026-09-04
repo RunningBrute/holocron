@@ -14,4 +14,9 @@ qt_add_qml_module(holocron-gui
         Main.qml
 )
 
+set_target_properties(holocron-gui
+    PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
+
 target_link_libraries(holocron-gui PRIVATE Qt6::Quick)

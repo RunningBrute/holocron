@@ -1,6 +1,7 @@
 #include "NodeManager.h"
 
 #include <QDebug>
+#include <QCoreApplication>
 
 NodeManager::NodeManager(QObject *parent)
     : QObject(parent)
@@ -11,7 +12,8 @@ void NodeManager::start(int count)
     qDebug() << "Starting supervisor with" << count << "nodes";
 
     const auto nodesCount = QString::number(count);
-    supervisorProcess.start("./supervisor", {nodesCount});
+    const auto supervisorPath = QCoreApplication::applicationDirPath() + "/supervisor";
+    supervisorProcess.start(supervisorPath, {nodesCount});
 
     if (!supervisorProcess.waitForStarted())
     {
