@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "Message.h"
+#include "holocron/message/Message.h"
 
 #define MAX_MESSAGE_SIZE 256
 

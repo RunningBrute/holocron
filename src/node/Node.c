@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "holocron/node/Node.h"
 
 #include <stdlib.h>
 

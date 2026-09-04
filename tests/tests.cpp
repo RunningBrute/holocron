@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "Node.h"
-#include "Message.h"
+#include "holocron/node/Node.h"
+#include "holocron/message/Message.h"
 
 TEST_CASE("Create node")
 {

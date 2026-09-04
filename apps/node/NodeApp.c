@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "Node.h"
+#include "holocron/node/Node.h"
 
 int main(int argc, char* argv[])
 {

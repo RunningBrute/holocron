@@ -1,30 +1,30 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(traveler LANGUAGES C CXX)
+project(holocron LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(holocron_lib)
-target_sources(holocron_lib PRIVATE src/Message.c src/Node.c)
+target_sources(holocron_lib PRIVATE src/message/Message.c src/node/Node.c)
 target_include_directories(holocron_lib PUBLIC include)
 
 # Node application
 add_executable(node)
-target_sources(node PRIVATE src/NodeApp.c)
+target_sources(node PRIVATE apps/node/NodeApp.c)
 target_link_libraries(node PRIVATE holocron_lib)
 target_compile_options(node PRIVATE -fsanitize=address -g)
 target_link_options(node PRIVATE -fsanitize=address)
 
 # Supervisor application
 add_executable(supervisor)
-target_sources(supervisor PRIVATE src/SupervisorApp.c)
+target_sources(supervisor PRIVATE apps/supervisor/SupervisorApp.c)
 target_compile_options(supervisor PRIVATE -fsanitize=address -g)
 target_link_options(supervisor PRIVATE -fsanitize=address)
 
 # Router application
 add_executable(router)
-target_sources(router PRIVATE src/RouterApp.c)
+target_sources(router PRIVATE apps/router/RouterApp.c)
 target_compile_options(router PRIVATE -fsanitize=address -g)
 target_link_options(router PRIVATE -fsanitize=address)
 
