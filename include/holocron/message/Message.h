@@ -14,5 +14,4 @@ void destroyMessage(Message* message);
 }
 #endif
 
-
 #endif
