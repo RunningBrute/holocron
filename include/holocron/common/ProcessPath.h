@@ -10,9 +10,13 @@ extern "C" {
 #include <stdlib.h>
 #include <stdio.h>
 
-inline static int sibling_path(const char* executable, char* buffer, size_t buffer_size)
+inline static int sibling_path(
+    const char* executable,
+    const char* sibling,
+    char* buffer,
+    size_t buffer_size)
 {
-    if (executable == NULL)
+    if (executable == NULL || sibling == NULL || buffer == NULL || buffer_size == 0)
     {
         perror("[ProcessPath] Wrong executable path");
         return -1;
@@ -26,16 +30,22 @@ inline static int sibling_path(const char* executable, char* buffer, size_t buff
     }
     buffer[length] = '\0';
     
-    int slash = '/';
-    char* lastSlash = strrchr(buffer, slash);
-
+    char* lastSlash = strrchr(buffer, '/');
     if (lastSlash == NULL)
     {
         perror("[ProcessPath] strrchr() error");
+        return -1;
     }
 
     size_t pathLength = (size_t)(lastSlash - buffer);
     buffer[pathLength] = '\0';
+
+    int written = snprintf(buffer + pathLength, buffer_size - pathLength, "/%s", sibling);
+    if (written < 0 || (size_t)written >= buffer_size - pathLength)
+    {
+        perror("[ProcessPath] snprintf() error");
+        return -1;
+    }
 
     return 0;
 }
