@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include "holocron/common/ProcessPath.h"
+
 #define MAX_NODES 10
 
 typedef struct NodesContext
@@ -53,7 +55,16 @@ static inline void createNode(NodesContext* ctx, const int id)
         snprintf(textId, sizeof(textId), "%d", id);
 
         char* const nodeArgv[] = {"node", textId, NULL};
-        execv("node", nodeArgv);
+
+        const size_t PATH_MAX = 256;
+        char nodePath[PATH_MAX];
+
+        if (sibling_path("/proc/self/exe", "node", nodePath, sizeof(nodePath)) != 0)
+        {
+            perror("[Supervisor] sibling_path()");
+            _exit(EXIT_FAILURE);
+        }
+        execv(nodePath, nodeArgv);
 
         perror("[Supervisor][ERROR] execv");
         _exit(EXIT_FAILURE);

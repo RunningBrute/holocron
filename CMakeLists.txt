@@ -19,6 +19,7 @@ target_link_options(node PRIVATE -fsanitize=address)
 # Supervisor application
 add_executable(supervisor)
 target_sources(supervisor PRIVATE apps/supervisor/SupervisorApp.c)
+target_include_directories(supervisor PUBLIC include)
 target_compile_options(supervisor PRIVATE -fsanitize=address -g)
 target_link_options(supervisor PRIVATE -fsanitize=address)
 
