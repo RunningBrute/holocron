@@ -39,7 +39,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 add_executable(tests)
-target_sources(tests PRIVATE tests/NodeTests.cpp)
+target_sources(tests PRIVATE tests/ProcessPathTests.cpp tests/NodeTests.cpp)
 target_link_libraries(tests PRIVATE holocron_lib Catch2::Catch2WithMain)
 target_compile_options(tests PRIVATE -fsanitize=address -g)
 target_link_options(tests PRIVATE -fsanitize=address)
