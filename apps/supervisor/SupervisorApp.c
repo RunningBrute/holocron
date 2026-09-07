@@ -15,6 +15,12 @@ typedef struct NodesContext
     int size;
 } NodesContext;
 
+typedef struct RouterContext
+{
+    pid_t pid;
+    int id; 
+} RouterContext;
+
 static inline void checkArgCount(const int argc)
 {
     if (argc < 2)
@@ -87,9 +93,42 @@ static inline void waitForNodes(const NodesContext ctx)
     }
 }
 
+static inline void createRouter(RouterContext* ctx)
+{
+    ctx->id = 1;
+    ctx->pid = fork();
+    if (isNewProcess(ctx->pid))
+    {
+        printf("[Supervisor] Trying to create router with ID %d \n", ctx->id);
+
+        char* const routerArgv[] = {"router", "/tmp/holocron.sock", NULL};
+
+        const size_t PATH_MAX = 256;
+        char routerPath[PATH_MAX];
+
+        if (sibling_path("/proc/self/exe", "router", routerPath, sizeof(routerPath)) != 0)
+        {
+            perror("[Supervisor] sibling_path()");
+            _exit(EXIT_FAILURE);
+        }
+        execv(routerPath, routerArgv);
+
+        perror("[Supervisor][ERROR] execv");
+        _exit(EXIT_FAILURE);
+    }
+}
+
+static inline void waitForRouter(const RouterContext ctx)
+{
+    waitpid(ctx.pid, NULL, 0);
+}
+
 int main(int argc, const char* argv[])
 {
     printf("[Supervisor] Supervisor started. \n");
+
+    RouterContext routerCtx;
+    createRouter(&routerCtx);
 
     checkArgCount(argc);
 
@@ -98,6 +137,7 @@ int main(int argc, const char* argv[])
 
     createNodes(&nodesCtx);
     waitForNodes(nodesCtx);
+    waitForRouter(routerCtx);
 
     printf("[Supervisor] Supervisor ended. \n");
 
