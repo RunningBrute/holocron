@@ -54,15 +54,17 @@ TEST_CASE("Executable path do not exist, so no sibling path in return")
 
 TEST_CASE("Sunny day scenario")
 {
-    const char* executable = "some/random/path";
+    const char* executable = "some/random/path/exe";
     const char* linkToExecutable = "link_to_exe";
     const char* sibling = "node";
     size_t bufferSize = 256;
     char buffer[bufferSize];
 
-    REQUIRE(symlink(executable, linkToExecutable) > 0);
-    REQUIRE(sibling_path(linkToExecutable, sibling, buffer, bufferSize) < 0);
+    REQUIRE(symlink(executable, linkToExecutable) == 0);
+    REQUIRE(sibling_path(linkToExecutable, sibling, buffer, bufferSize) == 0);
 
     const char* expectedSiblingPath = "some/random/path/node";
-    REQUIRE(strcmp(expectedSiblingPath, buffer));
+    REQUIRE(strcmp(expectedSiblingPath, buffer) == 0);
+
+    unlink(linkToExecutable);
 }
