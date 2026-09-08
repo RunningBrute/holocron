@@ -60,7 +60,7 @@ static inline void createNode(NodesContext* ctx, const int id)
         char textId[20];
         snprintf(textId, sizeof(textId), "%d", id);
 
-        char* const nodeArgv[] = {"node", textId, NULL};
+        char* const nodeArgv[] = {"node", textId, "/tmp/holocron.sock", NULL};
 
         const size_t PATH_MAX = 256;
         char nodePath[PATH_MAX];
