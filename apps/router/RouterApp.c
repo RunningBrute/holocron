@@ -12,8 +12,8 @@ int main(int argc, const char* argv[])
     }
 
     SocketPath socketPath;
-    socketPath.path = argv[2];
-    socketPath.length = strlen(argv[2]);
+    socketPath.path = argv[1];
+    socketPath.length = strlen(argv[1]);
 
     printf("[Router] socket adress: %s \n", socketPath.path);
 
