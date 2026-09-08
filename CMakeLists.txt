@@ -12,6 +12,7 @@ target_include_directories(holocron_lib PUBLIC include)
 # Node application
 add_executable(node)
 target_sources(node PRIVATE apps/node/NodeApp.c)
+target_include_directories(node PUBLIC apps/include)
 target_link_libraries(node PRIVATE holocron_lib)
 target_compile_options(node PRIVATE -fsanitize=address -g)
 target_link_options(node PRIVATE -fsanitize=address)
@@ -19,13 +20,14 @@ target_link_options(node PRIVATE -fsanitize=address)
 # Supervisor application
 add_executable(supervisor)
 target_sources(supervisor PRIVATE apps/supervisor/SupervisorApp.c)
-target_include_directories(supervisor PUBLIC include)
+target_include_directories(supervisor PUBLIC include apps/include)
 target_compile_options(supervisor PRIVATE -fsanitize=address -g)
 target_link_options(supervisor PRIVATE -fsanitize=address)
 
 # Router application
 add_executable(router)
 target_sources(router PRIVATE apps/router/RouterApp.c)
+target_include_directories(router PUBLIC apps/include)
 target_compile_options(router PRIVATE -fsanitize=address -g)
 target_link_options(router PRIVATE -fsanitize=address)
 

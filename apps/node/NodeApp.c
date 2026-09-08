@@ -4,12 +4,7 @@
 #include <string.h>
 
 #include "holocron/node/Node.h"
-
-typedef struct SocketPath
-{
-    const char* path;
-    size_t length;
-} SocketPath;
+#include "SocketPath.h"
 
 int main(int argc, char* argv[])
 {
