@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 
 #include "holocron/node/Node.h"
 #include "SocketPath.h"
@@ -25,9 +27,26 @@ int main(int argc, char* argv[])
     printf("[Node] Node with ID %d and PID %d created \n", id, pid);
     printf("[Node] socket adress: %s \n", socketPath.path);
 
+    int serverFd = socket(AF_UNIX, SOCK_STREAM, 0);
+
+    struct sockaddr_un addr = {0};
+
+    addr.sun_family = AF_UNIX;
+    strncpy(addr.sun_path, socketPath.path, sizeof(addr.sun_path) - 1);
+
+    if (connect(serverFd, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+    {
+        perror("[Node] connect");
+        return -1;
+    }
+    else
+    {
+        printf("[Node] Id: %d, PID: %d conected to the server! \n", id, pid);
+    }
+
     while (1)
     {
-        printf("[NODE] Alive! Id: %d, PID: %d \n", id, pid);
+        printf("[Node] Alive! Id: %d, PID: %d \n", id, pid);
         sleep(10);
     }
 
