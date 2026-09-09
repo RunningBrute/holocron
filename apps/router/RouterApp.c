@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <errno.h>
 
 #include "SocketPath.h"
 
@@ -25,7 +26,14 @@ int main(int argc, const char* argv[])
 
     struct sockaddr_un addr = {0};
     addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, socketPath.path, sizeof(addr.sun_path) - 1);
+
+    if (socketPath.length >= sizeof(addr.sun_path))
+    {
+        errno = ENAMETOOLONG;
+        return -1;
+    }
+
+    memcpy(addr.sun_path, socketPath.path, socketPath.length + 1);
 
     unlink(socketPath.path);
 
