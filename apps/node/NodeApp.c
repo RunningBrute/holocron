@@ -46,9 +46,23 @@ int main(int argc, char* argv[])
         perror("[Node] connect");
         return -1;
     }
-    else
+
+    printf("[Node] Id: %d, PID: %d conected to the server! \n", id, pid);
+    
+    char message[64];
+
+    int length = snprintf(message, sizeof(message), "Hello from node [ID: %d, PID: %d]", id, pid);
+
+    if (length < 0 || (size_t) length >= sizeof(message))
     {
-        printf("[Node] Id: %d, PID: %d conected to the server! \n", id, pid);
+        fprintf(stderr, "[Node] Failed to create hello message\n");
+        return EXIT_FAILURE;
+    }
+
+    if (send(serverFd, message, (size_t)length, 0) < 0)
+    {
+        perror("[Node] send");
+        return EXIT_FAILURE;
     }
 
     while (1)
