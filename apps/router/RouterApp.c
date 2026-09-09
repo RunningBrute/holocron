@@ -40,8 +40,37 @@ int main(int argc, const char* argv[])
     bind(serverFd, (struct sockaddr*)&addr, sizeof(addr));
     listen(serverFd, SOMAXCONN);
 
-    // TODO
-    //int node_fd = accept(server_fd, NULL, NULL);
+    for (;;)
+    {
+        int nodeFd = accept(serverFd, NULL, NULL);
+
+        if (nodeFd < 0)
+        {
+            perror("[Router] accept");
+            return -1;
+        }
+
+        char buffer[256];
+
+        ssize_t received = recv(nodeFd, buffer, sizeof(buffer) - 1, 0);
+
+        if (received < 0)
+        {
+            perror("[Router] recv");
+            close(nodeFd);
+            return -1;
+        }
+
+        if (received == 0)
+        {
+            printf("[Router] Client disconnected\n");
+            close(nodeFd);
+        }
+
+        buffer[received] = '\0';
+
+        printf("[Router] Received: %s\n", buffer);
+    }
 
     return 0;
 }
